@@ -1,0 +1,111 @@
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 20% 15%, #ffffff 0%, #eef4fa 38%, transparent 60%),
+    linear-gradient(180deg, #e6edf4 0%, #dfe8f0 100%);
+}
+
+.card {
+  width: min(720px, 100%);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #d7e0e9;
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(26, 49, 71, 0.08);
+  padding: 22px;
+}
+
+.card h1 {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+}
+
+.muted {
+  margin: 0 0 16px;
+  color: #52606d;
+  line-height: 1.4;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.field > span {
+  font-weight: 600;
+  color: #28323a;
+}
+
+.field select,
+.field input[type="file"] {
+  width: 100%;
+  border: 1px solid #c7d2dc;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.actions {
+  margin: 10px 0 6px;
+}
+
+button,
+.result a {
+  border-radius: 10px;
+  border: 1px solid #1f6fb2;
+  background: #247bc4;
+  color: #fff;
+  padding: 10px 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status {
+  color: #27445d;
+}
+
+.error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+.result {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.result a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.result a:last-child {
+  background: #fff;
+  color: #1f6fb2;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 16px;
+  }
+
+  .result {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .result > * {
+    justify-content: center;
+  }
+}
