@@ -4,7 +4,7 @@ import "./App.css";
 
 const MODE_OPTIONS = [
   { value: "auto", label: "Automatikus" },
-  { value: "mpl", label: "MPL (álló)" },
+  { value: "mpl", label: "GLS(álló)" },
   { value: "gls", label: "GLS (fekvő)" },
 ];
 
