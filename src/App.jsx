@@ -3,9 +3,9 @@ import { convertSapLabelsTo4UpPdf } from "./label4up";
 import "./App.css";
 
 const MODE_OPTIONS = [
-  { value: "auto", label: "Automatikus" },
-  { value: "mpl", label: "MPL (álló)" },
-  { value: "gls", label: "GLS (fekvő)" },
+  { value: "auto", label: "MPL" },
+  { value: "mpl", label: "GLS " },
+  
 ];
 
 export default function App() {
