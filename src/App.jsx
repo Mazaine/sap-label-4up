@@ -10,6 +10,7 @@ const MODE_OPTIONS = [
 
 export default function App() {
   const [mode, setMode] = useState("auto");
+  const [layout, setLayout] = useState("4es");
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -44,6 +45,7 @@ export default function App() {
     try {
       const outputBytes = await convertSapLabelsTo4UpPdf(files, {
         mode,
+        layout,
         onProgress: ({ message }) => setProgressText(message),
       });
 
@@ -88,12 +90,24 @@ export default function App() {
   return (
     <main className="app-shell">
       <section className="card">
-        <h1>SAP címke PDF -&gt; 4 címke / A4</h1>
+        <h1>SAP címke PDF -&gt; {layout === "2es" ? 2 : 4} címke / A4</h1>
         <p className="muted">
           Tölts fel egy vagy több SAP címke PDF-et (oldalanként 1 címke, jobb
           felső sarok). Az alkalmazás böngészőben levágja a címkéket és
-          nyomtatható 4-es osztású A4 PDF-et készít.
+          nyomtatható 2es vagy 4es osztású A4 PDF-et készít.
         </p>
+
+        <label className="field">
+          <span>Etikettkiosztás</span>
+          <select value={layout} disabled={busy} onChange={(e) => {
+            setLayout(e.target.value);
+            setOutputUrl("");
+            setProgressText("");
+          }}>
+            <option value="4es">4es – 4 matrica / lap</option>
+            <option value="2es">2es – 2 matrica / lap</option>
+          </select>
+        </label>
 
         <label className="field">
           <span>Tájolás mód</span>
@@ -136,7 +150,7 @@ export default function App() {
             onClick={handleGenerate}
             disabled={files.length === 0 || busy}
           >
-            {busy ? "Feldolgozás..." : "4-es osztású PDF generálása"}
+            {busy ? "Feldolgozás..." : `${layout} osztású PDF generálása`}
           </button>
         </div>
 

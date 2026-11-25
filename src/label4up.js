@@ -126,7 +126,12 @@ function createLabelCanvas(pageCanvas) {
   return cropped;
 }
 
-function getSlotRect(slotIndex) {
+const mm = (value) => value * 72 / 25.4;
+
+function getSlotRect(slotIndex, layout) {
+  if (layout === "2es") {
+    return { x: mm(20 + slotIndex * 148.5), y: mm(26), width: mm(108.5), height: mm(158) };
+  }
   const innerWidth = A4_WIDTH_PT - MARGIN_PT * 2;
   const innerHeight = A4_HEIGHT_PT - MARGIN_PT * 2;
   const cellWidth = innerWidth / 2;
@@ -158,6 +163,9 @@ async function toUint8Array(fileOrBuffer) {
 
 export async function convertSapLabelsTo4UpPdf(fileOrBuffer, options = {}) {
   const mode = options.mode ?? "auto";
+  const layout = options.layout ?? "4es";
+  const labelsPerPage = layout === "2es" ? 2 : 4;
+  const pageSize = layout === "2es" ? [mm(297), mm(210)] : [A4_WIDTH_PT, A4_HEIGHT_PT];
   const onProgress = options.onProgress ?? (() => {});
   const outPdf = await PDFDocument.create();
   let outPage = null;
@@ -203,12 +211,12 @@ export async function convertSapLabelsTo4UpPdf(fileOrBuffer, options = {}) {
         const pngBytes = await canvasToPngBytes(normalized);
         const image = await outPdf.embedPng(pngBytes);
 
-        const slotIndex = processedPages % 4;
+        const slotIndex = processedPages % labelsPerPage;
         if (slotIndex === 0) {
-          outPage = outPdf.addPage([A4_WIDTH_PT, A4_HEIGHT_PT]);
+          outPage = outPdf.addPage(pageSize);
         }
 
-        const slot = getSlotRect(slotIndex);
+        const slot = getSlotRect(slotIndex, layout);
         const fit = fitRect(image.width, image.height, slot.width, slot.height);
         outPage.drawImage(image, {
           x: slot.x + fit.offsetX,
